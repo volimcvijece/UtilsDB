@@ -1,2 +1,2 @@
-# UtilsPandasGeneral
-Helper functions for dealing with dataframes, excel files with df etc
+# UtilsDB
+Helper functions for dealing with DB connections, queries etc
