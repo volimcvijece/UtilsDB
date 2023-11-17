@@ -98,7 +98,8 @@ def get_column_info_fk(table_name=None):
         FK_Column = CU.COLUMN_NAME,
         PK_Table = PK.TABLE_NAME,
         PK_Column = PT.COLUMN_NAME,
-        Constraint_Name = C.CONSTRAINT_NAME
+        Constraint_Name = C.CONSTRAINT_NAME,
+		PT.CONSTRAINT_NAME AS Constraint_Name_PK
     FROM
         INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS C
     INNER JOIN INFORMATION_SCHEMA.TABLE_CONSTRAINTS FK
@@ -110,7 +111,8 @@ def get_column_info_fk(table_name=None):
     INNER JOIN (
                 SELECT
                     i1.TABLE_NAME,
-                    i2.COLUMN_NAME
+                    i2.COLUMN_NAME,
+					i1.CONSTRAINT_NAME
                 FROM
                     INFORMATION_SCHEMA.TABLE_CONSTRAINTS i1
                 INNER JOIN INFORMATION_SCHEMA.KEY_COLUMN_USAGE i2
