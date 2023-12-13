@@ -10,6 +10,7 @@ setup(
     license='unlicensed',
     packages=['utilsdb'],
     # Needed for dependencies
-    install_requires=['pandas', 'pyodbc', 'numpy'], #no nr - any version. specify - "numpy>=1.13.3"
+    #install_requires=['pandas', 'pyodbc', 'numpy'], #no nr - any version. specify - "numpy>=1.13.3"
+    install_requires=['pandas', 'pymssql', 'numpy'], #no nr - any version. specify - "numpy>=1.13.3"
     zip_safe=False
 )

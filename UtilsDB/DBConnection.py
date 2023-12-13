@@ -1,7 +1,7 @@
 import pyodbc
 import pandas as pd
 import numpy as np
-import os
+import pymssql
 
 
 # ENCRYPT defaults to yes starting in ODBC Driver 18. It's good to always specify ENCRYPT=yes on the client side to avoid MITM attacks.
@@ -16,7 +16,10 @@ def create_conn(server:str, database:str):
 
     return conn
 
-cnxn = create_conn('nvsql3t', 'FWD')
+
+def create_conn_pym(server:str, user:str, password:str, database:str):
+    conn = pymssql.connect(server, user, password, database)
+    return conn 
 
 #%% UVIJEK ZATVORITI KONEKCIJU ZA SQL SERVER!!!
 def close_con(connection):
