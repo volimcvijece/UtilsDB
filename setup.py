@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='UtilsDB',
-    version='0.0.5',
+    version='0.0.6',
     description='Utility functions for SQL Server connections and queries',
     url='git@github.com:volimcvijece/UtilsDB.git',
     author='Tonko Caric',

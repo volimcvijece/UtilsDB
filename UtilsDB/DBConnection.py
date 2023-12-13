@@ -113,7 +113,7 @@ def run_query_to_df(cursor, sqlcode):
         #df = pd.DataFrame(rows, columns=cols)
         return df
 
-def run_query_to_df(connection, sqlcode):
+def run_query_to_df_temp(connection, sqlcode):
     rows = run_query_dict(connection, sqlcode)
     if len(rows)==0:
         print(f'ERROR! Query returned empty table! Code: {sqlcode}')
