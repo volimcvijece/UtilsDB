@@ -21,6 +21,9 @@ def create_conn_pym(server:str, user:str, password:str, database:str):
     conn = pymssql.connect(server, user, password, database)
     return conn 
 
+def get_cursor_dict(connection):
+    return connection.cursor(as_dict=True)
+
 #%% UVIJEK ZATVORITI KONEKCIJU ZA SQL SERVER!!!
 def close_con(connection):
     connection.close()
@@ -34,10 +37,36 @@ def close_con(connection):
 # ProgrammingError: The cursor's connection has been closed.
 
 #TODO - na oba dodati try except
-def run_query(cursor, sqlcode):
+def run_query_dict(connection,sqlcode):
+    rows=[]
     try:
-        result = cursor.execute(sqlcode) 
-        rows = result.fetchall() #fetch all! pogledati dobre prakse
+        cursor=connection.cursor(as_dict=True)
+        cursor.execute(sqlcode) 
+        #result = cursor.execute(sqlcode) #WORKS for pyodbc but not for pymsql
+        #rows = result.fetchall() #WORKS for pyodbc but not for pymsql
+        rows = cursor.fetchall()
+
+    #while row: 
+    #    print(row)
+    #    row = cursor.fetchone()
+    except Exception as e:
+        print("Couldnt query the table, ", e)
+    #columns = [column[0] for column in cursor.description]
+
+
+
+    return rows
+
+
+#only for DICT CURSOR!
+def run_query(cursor, sqlcode):
+    cols = []
+
+    try:
+        result = cursor.execute(sqlcode) #WORKS for pyodbc but not for pymsql
+        rows = result.fetchall() #WORKS for pyodbc but not for pymsql
+        rows = cursor.fetchall()
+
     #while row: 
     #    print(row)
     #    row = cursor.fetchone()
@@ -46,9 +75,15 @@ def run_query(cursor, sqlcode):
         return [], []
     #columns = [column[0] for column in cursor.description]
 
-    cols = []
-    for i,_ in enumerate(result.description):
-        cols.append(result.description[i][0])
+    if len(rows)>0:
+        cols = list(rows[0].keys())
+    
+     #WORKS for pyodbc but not for pymsql
+    for i,_ in enumerate(result.description): #WORKS for pyodbc but not for pymsql
+        cols.append(result.description[i][0]) #WORKS for pyodbc but not for pymsql
+    for row in cursor:
+        cols.append(row)
+    
 
     return rows, cols
 
@@ -66,6 +101,8 @@ def run_query_only_rows(cursor, sqlcode):
     #columns = [column[0] for column in cursor.description]
     return rows
 
+
+##TEMP WORKAROUND- IN The FUTURE, EVERYTHING IN THE CLASS, SPECIFY ONLY THE PACKAGE
 def run_query_to_df(cursor, sqlcode):
     rows, cols = run_query(cursor, sqlcode)
     if len(rows)==0:
@@ -76,4 +113,13 @@ def run_query_to_df(cursor, sqlcode):
         #df = pd.DataFrame(rows, columns=cols)
         return df
 
+def run_query_to_df(connection, sqlcode):
+    rows = run_query_dict(connection, sqlcode)
+    if len(rows)==0:
+        print(f'ERROR! Query returned empty table! Code: {sqlcode}')
+        return []
+    else:
+        df = pd.DataFrame(rows)
+        #df = pd.DataFrame(rows, columns=cols)
+        return df
 
