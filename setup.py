@@ -1,4 +1,5 @@
-from setuptools import setup
+#from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name='UtilsDB',
@@ -8,7 +9,7 @@ setup(
     author='Tonko Caric',
     author_email='caric.tonko@gmail.com',
     license='unlicensed',
-    packages=['utilsdb'],
+    packages=['utilsdb'], #packages=find_packages()
     # Needed for dependencies
     #install_requires=['pandas', 'pyodbc', 'numpy'], #no nr - any version. specify - "numpy>=1.13.3"
     install_requires=['pandas', 'pymssql', 'numpy'], #no nr - any version. specify - "numpy>=1.13.3"
