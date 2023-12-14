@@ -9,7 +9,8 @@ setup(
     author='Tonko Caric',
     author_email='caric.tonko@gmail.com',
     license='unlicensed',
-    packages=['utilsdb'], #packages=find_packages()
+    packages=find_packages(),
+    #packages=['utilsdb'], #packages=find_packages()
     # Needed for dependencies
     #install_requires=['pandas', 'pyodbc', 'numpy'], #no nr - any version. specify - "numpy>=1.13.3"
     install_requires=['pandas', 'pymssql', 'numpy'], #no nr - any version. specify - "numpy>=1.13.3"
